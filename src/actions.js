@@ -1,19 +1,21 @@
-export const CHANGE_SEARCH_FIELD = "CHANGE_SEARCH_FIELD";
-export const FETCH_PRODUCTS_PENDING = "FETCH_PRODUCTS_PENDING";
-export const FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS";
-export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
+import {
+  CHANGE_SEARCH_FIELD,
+  REQUEST_ROBOTS_FAILED,
+  REQUEST_ROBOTS_SUCCESS,
+  REQUEST_ROBOTS_PENDING,
+} from "./constans";
 
-export const setSearchField = (text) => {
-  return {
-    type: CHANGE_SEARCH_FIELD,
-    payload: text,
-  };
-};
+export const setSearchField = (text) => ({
+  type: CHANGE_SEARCH_FIELD,
+  payload: text,
+});
 
 export const requestRobots = () => (dispatch) => {
-  dispatch({ type: FETCH_PRODUCTS_PENDING });
+  dispatch({ type: REQUEST_ROBOTS_PENDING });
   fetch("https://jsonplaceholder.typicode.com/users")
-    .then((res) => res.json())
-    .then((data) => dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: data }))
-    .catch((error) => dispatch({ type: FETCH_PRODUCTS_ERROR, payload: error }));
+    .then((response) => response.json())
+    .then((data) => dispatch({ type: REQUEST_ROBOTS_SUCCESS, payload: data }))
+    .catch((error) =>
+      dispatch({ type: REQUEST_ROBOTS_FAILED, payload: error })
+    );
 };
